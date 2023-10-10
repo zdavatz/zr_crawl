@@ -47,9 +47,9 @@ if (needHelp || flags.help || flags.h) {
   Deno.exit(0);
 }
 
-async function* main(): AsyncGenerator<Product, void, void> {
-  const categories = await fetchCategories(lang);
-  const stream = Highland(categories)
+function main(): Highland.Stream<Product> {
+  const stream = Highland(fetchCategories(lang))
+    .flatMap((categories) => Highland(categories))
     .map((cat) => fetchProductsOfCategory(lang, cat, 1))
     .parallel(parallelCategory)
     .map((product) =>
@@ -88,25 +88,7 @@ async function* main(): AsyncGenerator<Product, void, void> {
     )
     .parallel(parallelProduct);
 
-  let ended = false;
-
-  while (!ended) {
-    const value: Product | Highland.Nil = await new Promise((res, rej) => {
-      stream.pull((err, x) => {
-        if (err) {
-          rej(err);
-        } else {
-          res(x);
-        }
-      });
-    });
-
-    if (Highland.isNil(value)) {
-      return;
-    } else {
-      yield value;
-    }
-  }
+  return stream;
 }
 
 await writeCSV(output, main());
