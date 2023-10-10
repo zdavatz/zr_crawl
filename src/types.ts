@@ -2,6 +2,7 @@ export type Language = "de" | "fr";
 
 export type Product = {
   category: string; // Category name. Take the category name from the category landing page. The category name is also in the link.
+  fullCategory: string; // Full category, including the parent categories's name
   name: string; // Prodcut name
   packageSize: string; // Package size (below the name)
   cumulusPoints: string; // Cumulus points

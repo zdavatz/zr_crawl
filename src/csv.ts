@@ -8,6 +8,7 @@ import { CsvRow, Product } from "./types.ts";
 const header = [
   "hash",
   "category",
+  "fullCategory",
   "name",
   "packageSize",
   "cumulusPoints",
@@ -21,10 +22,10 @@ const header = [
 
 async function* toGenerator<T>(
   stream: Highland.Stream<T>,
-): AsyncGenerator<Product, void, void> {
+): AsyncGenerator<T, void, void> {
   let ended = false;
   while (!ended) {
-    const value: Product | Highland.Nil = await new Promise((res, rej) => {
+    const value: T | Highland.Nil = await new Promise((res, rej) => {
       stream.pull((err, x) => {
         if (err) {
           rej(err);
@@ -42,9 +43,10 @@ async function* toGenerator<T>(
   }
 }
 
-async function hashProduct(product: Product): string {
+async function hashProduct(product: Product): Promise<string> {
   let message = "";
   message += product.category;
+  message += product.fullCategory;
   message += product.name;
   message += product.packageSize;
   message += product.cumulusPoints;
@@ -60,7 +62,7 @@ async function hashProduct(product: Product): string {
   return hash;
 }
 
-async function addHash(product: Product): CsvRow {
+async function addHash(product: Product): Promise<CsvRow> {
   return {
     ...product,
     hash: await hashProduct(product),

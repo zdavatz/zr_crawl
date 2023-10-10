@@ -8,6 +8,7 @@ import {
   fetchCumulusPoint,
   fetchExtraInfoForProduct,
   fetchProductsOfCategory,
+  fullCategoryOfProduct,
   urlForProduct,
 } from "./zurrose.ts";
 import { writeCSV } from "./csv.ts";
@@ -73,6 +74,7 @@ function main(): Highland.Stream<Product> {
       ]))
         .map(([{ shippingCosts, packageSize }, cumulusPoint]) => ({
           category: product.main_category.category_name,
+          fullCategory: fullCategoryOfProduct(product),
           name: product.name,
           packageSize,
           cumulusPoints: String(cumulusPoint),

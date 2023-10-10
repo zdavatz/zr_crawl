@@ -210,3 +210,13 @@ function patchBreadcrumbForCumulusPoint(breadcrumb: any) {
     slug: breadcrumb.readable_id,
   };
 }
+
+export function fullCategoryOfProduct(product: APIProduct): string {
+  let str = product.breadcrumb?.name ?? "";
+  let b = product.breadcrumb?.children[0];
+  while (b) {
+    str += ` > ${b.name}`;
+    b = b.children[0];
+  }
+  return str;
+}
