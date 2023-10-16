@@ -2,6 +2,8 @@ import { parse } from "https://deno.land/std@0.203.0/flags/mod.ts";
 // @deno-types="npm:@types/highland"
 import Highland from "npm:highland@2.13.5";
 
+import * as Amavita from "./amavita.ts";
+
 import { Language, Product } from "./types.ts";
 import {
   fetchCategories,
@@ -14,18 +16,27 @@ import {
 import { writeProductCSV } from "./csv.ts";
 import { retry } from "./utilities.ts";
 
-const flags = parse(Deno.args, {});
+const flags = parse(Deno.args, {
+  boolean: ["amavita"],
+  string: ["output", "lang"],
+});
+
+if (flags.ama) {
+  await Amavita.main(flags);
+  Deno.exit(0);
+}
+
 let needHelp = false;
 
-const lang: Language = flags["lang"];
-if (lang !== "de" && lang !== "fr") {
-  console.error('--lang must be either "de" or "fr"');
+const output = flags["output"] as string;
+if (typeof output !== "string") {
+  console.error("--output must be a string");
   needHelp = true;
 }
 
-const output = flags["output"];
-if (typeof output !== "string") {
-  console.error("--output must be a string");
+const lang: Language = flags["lang"] as any;
+if (lang !== "de" && lang !== "fr") {
+  console.error('--lang must be either "de" or "fr"');
   needHelp = true;
 }
 
@@ -39,6 +50,7 @@ const retryCount = typeof flags["retry"] === "number" ? flags["retry"] : 2;
 
 if (needHelp || flags.help || flags.h) {
   console.log(`
+--ama Crawl amavita.ch
 --output filename\tPath to the output file
 --lang [de|fr]
 [--retry = 2]\tHow many times should I retry when scraping fails
