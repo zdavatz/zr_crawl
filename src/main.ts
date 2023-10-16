@@ -11,7 +11,7 @@ import {
   fullCategoryOfProduct,
   urlForProduct,
 } from "./zurrose.ts";
-import { writeCSV } from "./csv.ts";
+import { writeProductCSV } from "./csv.ts";
 import { retry } from "./utilities.ts";
 
 const flags = parse(Deno.args, {});
@@ -93,4 +93,4 @@ function main(): Highland.Stream<Product> {
   return stream;
 }
 
-await writeCSV(output, main());
+await writeProductCSV(output, main());
