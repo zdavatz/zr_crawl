@@ -12,6 +12,7 @@ export type Product = {
   shippingCosts: string; // Shipping costs (behind "Versandkosten:")
   images: string; // Links to the images.
   link: string; // Full link to the product in the shop
+  brand: string; // Brand name, https://github.com/zdavatz/zr_crawl/issues/5
 };
 
 export type CsvRow = Product & {
