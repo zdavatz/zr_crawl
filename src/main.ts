@@ -98,6 +98,7 @@ function main(): Highland.Stream<Product> {
           shippingCosts: `${shippingCosts.currency} ${shippingCosts.amount}`,
           images: product.files.map((f) => f.url).join("|"),
           link: urlForProduct(lang, product),
+          brand: product.brand.name,
         }))
     )
     .parallel(parallelProduct);

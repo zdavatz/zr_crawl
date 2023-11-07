@@ -19,6 +19,7 @@ const productHeader = [
   "shippingCosts",
   "images",
   "link",
+  "brand",
 ];
 
 async function hashProduct(product: Product): Promise<string> {
@@ -34,6 +35,7 @@ async function hashProduct(product: Product): Promise<string> {
   message += product.shippingCosts;
   message += product.images;
   message += product.link;
+  message += product.brand;
   const messageBuffer = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest("SHA-256", messageBuffer);
   const hash = encodeHex(hashBuffer);

@@ -42,6 +42,8 @@ export type APIProduct = {
   };
   "brand": {
     "readable_id": string;
+    "name": string;
+    "slug": string;
   };
   "breadcrumb": APIProductBreadcrumb;
   "files": APIProductFile[];
