@@ -1,4 +1,4 @@
-import { DOMParser } from "https://esm.sh/linkedom";
+import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.45/deno-dom-wasm.ts";
 // @deno-types="npm:@types/highland"
 import Highland from "npm:highland@2.13.5";
 
