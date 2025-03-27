@@ -8,7 +8,7 @@ import { toGenerator } from "./utilities.ts";
 import { writeCSV } from "./csv.ts";
 
 async function fetchUrls(): Promise<string[]> {
-  const url = "https://www.amavita.ch/sitemaps/de/sitemap-1-4.xml";
+  const url = "https://www.amavita.ch/sitemaps/de/product-sitemap-de-5.xml";
   const res = await fetch(url);
   const xml = XML.parse(await res.text());
   const urls: any[] = (xml?.urlset as any).url;
