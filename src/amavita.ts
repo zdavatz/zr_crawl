@@ -1,6 +1,6 @@
 import * as StdFlags from "https://deno.land/std@0.203.0/flags/mod.ts";
 import * as XML from "https://deno.land/x/xml/mod.ts";
-import { DOMParser } from "https://esm.sh/linkedom";
+import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.45/deno-dom-wasm.ts";
 // @deno-types="npm:@types/highland"
 import Highland from "npm:highland@2.13.5";
 
